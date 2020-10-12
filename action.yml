@@ -6,8 +6,13 @@ inputs:
     description: Your GitHub token for authentication.
     required: true
   thumb:
-    description: Render thumb or not.
+    description: Render thumb.
     required: false
+    default: true
+  raw:
+    description: Only parse raw links.
+    required: false
+    default: true
 runs:
   using: node12
   main: dist/index.js

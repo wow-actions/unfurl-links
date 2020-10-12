@@ -9,6 +9,7 @@ export namespace Unfurl {
 
     // Parse the HTML
     const frag = JSDOM.fragment(html)
+    const raw = core.getInput('raw') !== 'false'
 
     // Check if the content came from an email
     const isEmail = !!frag.querySelectorAll('.email-fragment').length
@@ -17,7 +18,7 @@ export namespace Unfurl {
       // Find all the links
       frag.querySelectorAll('a').forEach((a) => {
         // Only unfurl raw links. GitHub also adds a trailing `/`
-        if (a.href === a.innerHTML || a.href === `${a.innerHTML}/`) {
+        if (!raw || a.href === a.innerHTML || a.href === `${a.innerHTML}/`) {
           links.push(a.href)
         }
       })
