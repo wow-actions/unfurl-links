@@ -24,6 +24,7 @@ export namespace Action {
             headers,
             comment_id: context.payload.comment.id,
           })
+          console.log(JSON.stringify(comment, null, 2))
           const html = (comment.data as any).body_html as string
           const body = await Unfurl.parse(html)
           if (body) {
