@@ -15,7 +15,7 @@ export namespace Action {
         Util.isValidEvent('issue_comment', 'edited')
       ) {
         const context = github.context
-        const headers = { accept: 'application/vnd.github.html+json' }
+        const headers = { accept: 'application/vnd.github.full+json' }
 
         if (context.payload.comment) {
           const octokit = Util.getOctokit()
