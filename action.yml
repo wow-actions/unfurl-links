@@ -3,8 +3,11 @@ description: Unfurl links on Issues and Pull Request discussions.
 author: bubkoo <bubkoo.wy@gmail.com>
 inputs:
   GITHUB_TOKEN:
-    description: Your GitHub token for authentication
+    description: Your GitHub token for authentication.
     required: true
+  thumb:
+    description: Render thumb or not.
+    required: false
 runs:
   using: node12
   main: dist/index.js

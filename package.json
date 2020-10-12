@@ -1,9 +1,9 @@
 {
-  "name": "unfurl-comments",
+  "name": "unfurl-links",
   "description": "A Github Action to unfurl links on Issues and Pull Request discussions.",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "repository": "https://github.com/bubkoo/unfurl-comments",
+  "repository": "https://github.com/bubkoo/unfurl-links",
   "author": "bubkoo <bubkoo.wy@gmail.com>",
   "license": "MIT",
   "files": [

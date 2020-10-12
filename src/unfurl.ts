@@ -1,9 +1,10 @@
+import * as core from '@actions/core'
 import { JSDOM } from 'jsdom'
 import { unfurl } from 'unfurl.js'
 import { Template } from './template'
 
 export namespace Unfurl {
-  export function getLinks(html: string) {
+  function getLinks(html: string) {
     const links: string[] = []
 
     // Parse the HTML
@@ -30,6 +31,7 @@ export namespace Unfurl {
     const data = await unfurl(url, { oembed: true })
     const ogps = data.open_graph
     const cards = data.twitter_card
+    const hasThumb = core.getInput('thumb') !== 'false'
 
     const ogp = Array.isArray(ogps) ? ogps[0] : ogps
     const card = Array.isArray(cards) ? cards[0] : cards
@@ -44,13 +46,14 @@ export namespace Unfurl {
     const authorName = embed && embed.author_name
     const authorLink = embed && embed.author_url
 
-    const thumbUrl =
-      (ogp && ogp.images && ogp.images[0] && ogp.images[0].url) ||
-      (card && card.images && card.images[0] && card.images[0].url) ||
-      (embed &&
-        embed.thumbnails &&
-        embed.thumbnails[0] &&
-        embed.thumbnails[0].url)
+    const thumbUrl = hasThumb
+      ? (ogp && ogp.images && ogp.images[0] && ogp.images[0].url) ||
+        (card && card.images && card.images[0] && card.images[0].url) ||
+        (embed &&
+          embed.thumbnails &&
+          embed.thumbnails[0] &&
+          embed.thumbnails[0].url)
+      : undefined
 
     return {
       title,
@@ -64,6 +67,10 @@ export namespace Unfurl {
 
   export async function parse(html: string) {
     const links = getLinks(html)
+
+    core.debug(`html: ${html}`)
+    core.debug(`links: ${links}`)
+
     if (links.length) {
       const contents = await Promise.all(
         links.map((link) => getMetadata(link).then(Template.render)),
@@ -71,14 +78,13 @@ export namespace Unfurl {
 
       const prefix = '<!-- unfurl begin -->'
       const suffix = '<!-- unfurl end -->'
-      const content = `\n\n${prefix}${contents.join('')}\n\n${suffix}`
+      const content = `\n\n${prefix}\n\n${contents.join('')}\n\n${suffix}`
+      const regex = new RegExp(`\n*\s*${prefix}(.*)\n*\s*${suffix}`, 'gm')
+      const raw = html.replace(regex, '')
 
-      return (
-        html.replace(
-          new RegExp(`\n*\s*${prefix}(.*)\n*\s*${suffix}`, 'gm'),
-          '',
-        ) + content
-      )
+      core.debug(`raw: ${raw}`)
+
+      return raw + content
     }
 
     return null
