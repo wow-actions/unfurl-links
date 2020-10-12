@@ -68,7 +68,7 @@ export namespace Unfurl {
   export async function parse(html: string) {
     const prefix = '<!-- unfurl begin -->'
     const suffix = '<!-- unfurl end -->'
-    const regex = new RegExp(`\n*\s*${prefix}(.*)\n*\s*${suffix}`, 'gm')
+    const regex = new RegExp(`\\n*\\s*${prefix}(.*)\\n*\\s*${suffix}`, 'gm')
     const raw = html.replace(regex, '')
     const links = getLinks(raw)
 
