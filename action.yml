@@ -1,0 +1,13 @@
+name: Unfurl Links
+description: Unfurl links on Issues and Pull Request discussions.
+author: bubkoo <bubkoo.wy@gmail.com>
+inputs:
+  GITHUB_TOKEN:
+    description: Your GitHub token for authentication
+    required: true
+runs:
+  using: node12
+  main: dist/index.js
+branding:
+  icon: radio
+  color: orange # gray-dark purple red orange green blue yellow black white
