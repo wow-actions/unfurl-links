@@ -24,8 +24,7 @@ export namespace Action {
             headers,
             comment_id: context.payload.comment.id,
           })
-          console.log(JSON.stringify(comment, null, 2))
-          const html = (comment.data as any).body_html as string
+          const html = Util.getHtml(comment.data)
           const body = await Unfurl.parse(html)
           if (body) {
             await octokit.issues.updateComment({
@@ -51,7 +50,7 @@ export namespace Action {
               issue_number: payload.number,
             })
 
-            const html = (issue.data as any).body_html as string
+            const html = Util.getHtml(issue.data)
             const body = await Unfurl.parse(html)
             if (body) {
               await octokit.issues.update({

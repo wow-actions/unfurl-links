@@ -66,9 +66,14 @@ export namespace Unfurl {
   }
 
   export async function parse(html: string) {
-    const links = getLinks(html)
+    const prefix = '<!-- unfurl begin -->'
+    const suffix = '<!-- unfurl end -->'
+    const regex = new RegExp(`\n*\s*${prefix}(.*)\n*\s*${suffix}`, 'gm')
+    const raw = html.replace(regex, '')
+    const links = getLinks(raw)
 
     core.debug(`html: ${html}`)
+    core.debug(`raw: ${raw}`)
     core.debug(`links: ${links}`)
 
     if (links.length) {
@@ -76,15 +81,7 @@ export namespace Unfurl {
         links.map((link) => getMetadata(link).then(Template.render)),
       )
 
-      const prefix = '<!-- unfurl begin -->'
-      const suffix = '<!-- unfurl end -->'
-      const content = `\n\n${prefix}\n\n${contents.join('')}\n\n${suffix}`
-      const regex = new RegExp(`\n*\s*${prefix}(.*)\n*\s*${suffix}`, 'gm')
-      const raw = html.replace(regex, '')
-
-      core.debug(`raw: ${raw}`)
-
-      return raw + content
+      return `${raw}\n\n${prefix}\n\n${contents.join('')}\n\n${suffix}`
     }
 
     return null

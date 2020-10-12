@@ -15,4 +15,11 @@ export namespace Util {
     }
     return false
   }
+
+  export function getHtml(data: any) {
+    const body = data.body as string
+    const html = data.body_html as string
+
+    return body.match(/<([a-z]+)>(.*)<\/\1>/g) ? body : html
+  }
 }
