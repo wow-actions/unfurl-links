@@ -66,9 +66,7 @@ export namespace Unfurl {
   }
 
   export async function parse(html: string) {
-    const prefix = '<!-- unfurl begin -->'
-    const suffix = '<!-- unfurl end -->'
-    const regex = new RegExp(`\\n*\\s*${prefix}(.*)\\n*\\s*${suffix}`, 'gm')
+    const regex = /[\r\n\s]*<!--\s*unfurl\s+begin\s*-->([\S\s]*?)[\r\n\s]*<!--\s*unfurl\s+end\s*-->[\r\n\s]*/gm
     const raw = html.replace(regex, '')
     const links = getLinks(raw)
 
@@ -80,6 +78,9 @@ export namespace Unfurl {
       const contents = await Promise.all(
         links.map((link) => getMetadata(link).then(Template.render)),
       )
+
+      const prefix = '<!-- unfurl begin -->'
+      const suffix = '<!-- unfurl end -->'
 
       return `${raw}\n\n${prefix}\n\n${contents.join('')}\n\n${suffix}`
     }

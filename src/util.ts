@@ -20,6 +20,7 @@ export namespace Util {
     const body = data.body as string
     const html = data.body_html as string
 
+    // https://regex101.com/r/tpYS7L/1
     return body.match(/<([a-z]+)>(.*)<\/\1>/g) ? body : html
   }
 }
