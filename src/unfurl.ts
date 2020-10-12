@@ -66,6 +66,7 @@ export namespace Unfurl {
   }
 
   export async function parse(html: string) {
+    // https://regex101.com/r/m6GyIi/1
     const regex = /[\r\n\s]*<!--\s*unfurl\s+begin\s*-->([\S\s]*?)[\r\n\s]*<!--\s*unfurl\s+end\s*-->[\r\n\s]*/gm
     const raw = html.replace(regex, '')
     const links = getLinks(raw)

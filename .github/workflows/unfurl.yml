@@ -1,4 +1,4 @@
-name: Unfurl Comments
+name: Unfurl Links
 
 on:
   issues:
