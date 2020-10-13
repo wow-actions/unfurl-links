@@ -39,6 +39,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "handlebars": "^4.7.6",
     "js-yaml": "^3.14.0",
     "jsdom": "^16.4.0",
     "unfurl.js": "^5.1.0"

@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import { JSDOM } from 'jsdom'
 import { unfurl } from 'unfurl.js'
-import { Template } from './template'
+import { compile } from 'handlebars'
 
 export namespace Unfurl {
   function getLinks(html: string) {
@@ -28,10 +28,27 @@ export namespace Unfurl {
     return Array.from(new Set(links))
   }
 
-  async function getMetadata(url: string): Promise<Template.Metadata> {
+  interface Metadata {
+    url: string
+    header?: string
+    title?: string
+    titleLink?: string
+    authorName?: string
+    authorIcon?: string
+    authorLink?: string
+    thumb?: string
+    content?: string
+    image?: string
+    footer?: string
+    footerLink?: string
+    footerIcon?: string
+  }
+
+  async function getMetadata(url: string): Promise<Metadata> {
     const data = await unfurl(url, { oembed: true })
     const ogps = data.open_graph
     const cards = data.twitter_card
+    const header = core.getInput('header')
     const hasThumb = core.getInput('thumb') !== 'false'
 
     const ogp = Array.isArray(ogps) ? ogps[0] : ogps
@@ -47,7 +64,7 @@ export namespace Unfurl {
     const authorName = embed && embed.author_name
     const authorLink = embed && embed.author_url
 
-    const thumbUrl = hasThumb
+    const thumb = hasThumb
       ? (ogp && ogp.images && ogp.images[0] && ogp.images[0].url) ||
         (card && card.images && card.images[0] && card.images[0].url) ||
         (embed &&
@@ -57,14 +74,76 @@ export namespace Unfurl {
       : undefined
 
     return {
+      url,
+      header,
       title,
       titleLink,
       authorName,
       authorLink,
       content,
-      thumbUrl,
+      thumb,
     }
   }
+
+  const defaultTemplate = `
+    <blockquote>
+      {{#if header }}
+        {{{ header }}}
+      {{/if}}
+
+      {{#if thumb }}
+        <img src="{{ thumb }}" width="48" align="right" />
+      {{/if}}
+
+      {{#if authorName }}
+        <div>
+          {{#if authorIcon }}
+            <img src="{{ authorIcon }}" height="14" />
+          {{/if}}
+          {{#if authorLink }}
+            <a href="{{ authorLink }}">{{ authorName }}</a>
+          {{else}}
+            {{ authorName }}
+          {{/if}}
+        </div>
+      {{/if}}
+
+      {{#if title }}
+        <div>
+          <strong>
+            {{#if titleLink }}
+              <a href="{{ titleLink }}">{{ title }}</a>
+            {{else}}
+              {{ title }}
+            {{/if}}
+          </strong>
+        </div>
+      {{/if}}
+
+      {{#if content }}
+        <div>{{ content }}</div>
+      {{/if}}
+
+      {{#if image }}
+        <br/>
+        <img src="{{image}}" />
+      {{/if}}
+
+      {{#if footer }}
+        <h6>
+          {{#if footerIcon }}
+            <img src="{{ footerIcon }}" height="14" />
+            {{/if}}
+          {{#if footerLink }}
+            <a href="{{ footerLink }}">{{ footer }}</a>
+          {{else}}
+            {{ footer }}
+          {{/if}}
+        </h6>
+      {{/if}}
+
+    </blockquote>
+  `
 
   export async function parse(html: string) {
     // https://regex101.com/r/m6GyIi/1
@@ -77,8 +156,18 @@ export namespace Unfurl {
     core.debug(`links: ${links}`)
 
     if (links.length) {
+      const template = core.getInput('template') || defaultTemplate
+      const render = compile(template)
+
       const contents = await Promise.all(
-        links.map((link) => getMetadata(link).then(Template.render)),
+        links.map((link) =>
+          getMetadata(link).then((data) => {
+            if (data.header) {
+              data.header = compile(data.header)(data)
+            }
+            return render(data)
+          }),
+        ),
       )
 
       const prefix = '<!-- unfurl begin -->'
