@@ -157,7 +157,7 @@ export namespace Unfurl {
 
     if (links.length) {
       const template = core.getInput('template') || defaultTemplate
-      const render = compile(template)
+      const render = compile(template.replace(/[\t\r\n]*/g, ''))
 
       const contents = await Promise.all(
         links.map((link) =>
