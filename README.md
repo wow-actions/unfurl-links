@@ -43,8 +43,12 @@ Set `raw` to `false` to render all links.
 ```yml
 name: Unfurl Links
 on:
+  issues:
+    types: [opened, edited]
   issue_comment:
-    types: [created]
+    types: [created, edited]
+  pull_request:
+    types: [opened, edited]
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -64,8 +68,12 @@ Cutsom header of the unfurled card. `header` can be a [Handlebars](https://handl
 ```yml
 name: Unfurl Links
 on:
+  issues:
+    types: [opened, edited]
   issue_comment:
-    types: [created]
+    types: [created, edited]
+  pull_request:
+    types: [opened, edited]
 jobs:
   run:
     runs-on: ubuntu-latest
