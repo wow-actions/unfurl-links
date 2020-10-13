@@ -6,10 +6,6 @@ inputs:
   GITHUB_TOKEN:
     description: Your GitHub token for authentication.
     required: true
-  thumb:
-    description: Render thumb if any.
-    required: false
-    default: true
   raw:
     description: If only parse the raw links.
     required: false

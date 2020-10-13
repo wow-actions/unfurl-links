@@ -49,7 +49,6 @@ export namespace Unfurl {
     const ogps = data.open_graph
     const cards = data.twitter_card
     const header = core.getInput('header')
-    const hasThumb = core.getInput('thumb') !== 'false'
 
     const ogp = Array.isArray(ogps) ? ogps[0] : ogps
     const card = Array.isArray(cards) ? cards[0] : cards
@@ -64,14 +63,13 @@ export namespace Unfurl {
     const authorName = embed && embed.author_name
     const authorLink = embed && embed.author_url
 
-    const thumb = hasThumb
-      ? (ogp && ogp.images && ogp.images[0] && ogp.images[0].url) ||
-        (card && card.images && card.images[0] && card.images[0].url) ||
-        (embed &&
-          embed.thumbnails &&
-          embed.thumbnails[0] &&
-          embed.thumbnails[0].url)
-      : undefined
+    const thumb =
+      (ogp && ogp.images && ogp.images[0] && ogp.images[0].url) ||
+      (card && card.images && card.images[0] && card.images[0].url) ||
+      (embed &&
+        embed.thumbnails &&
+        embed.thumbnails[0] &&
+        embed.thumbnails[0].url)
 
     return {
       url,
