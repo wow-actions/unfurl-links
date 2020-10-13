@@ -22,4 +22,4 @@ jobs:
       - uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          prefix: '<i><a href="{{ url }}">{{ url }}</a></i>'
+          header: '<i><a href="{{ url }}">{{ url }}</a></i>'

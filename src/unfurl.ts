@@ -165,7 +165,7 @@ export namespace Unfurl {
             if (data.header) {
               data.header = compile(data.header)(data)
             }
-            return render(data)
+            return render(data).trim()
           }),
         ),
       )
