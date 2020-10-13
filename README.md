@@ -2,7 +2,7 @@
 
 A Github Action to unfurl links on Issues and Pull Request discussions.
 
-![screenshot](https://github.com/bubkoo/unfurl-links/master/screenshots/default.jpg)
+![screenshot](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/default.jpg?raw=true)
 
 ## Usage
 
@@ -36,7 +36,7 @@ Your GitHub token for authentication.
 
 Specify if only render the raw links. Default `true`.
 
-![raw links](https://github.com/bubkoo/unfurl-links/master/screenshots/raw-links.jpg)
+![raw links](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/raw-links.jpg?raw=true)
 
 Set `raw` to `false` to render all links.
 
@@ -55,7 +55,7 @@ jobs:
           raw: false
 ```
 
-![all links](https://github.com/bubkoo/unfurl-links/master/screenshots/all-links.jpg)
+![all links](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/all-links.jpg?raw=true)
 
 #### header
 
@@ -76,7 +76,7 @@ jobs:
           header: '<i><a href="{{ url }}">{{ url }}</a></i>'
 ```
 
-![custom header](https://github.com/bubkoo/unfurl-links/master/screenshots/custom-header.jpg)
+![custom header](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/custom-header.jpg?raw=true)
 
 #### template
 
@@ -102,40 +102,63 @@ interface Metadata {
 
 And the default template is:
 
-```html
+```hbs
 <blockquote>
-  {{#if header }} {{{ header }}} {{/if}} {{#if thumb }}
-  <img src="{{ thumb }}" width="48" align="right" />
-  {{/if}} {{#if authorName }}
-  <div>
-    {{#if authorIcon }}
-    <img src="{{ authorIcon }}" height="14" />
-    {{/if}} {{#if authorLink }}
-    <a href="{{ authorLink }}">{{ authorName }}</a>
-    {{else}} {{ authorName }} {{/if}}
-  </div>
-  {{/if}} {{#if title }}
-  <div>
-    <strong>
-      {{#if titleLink }}
-      <a href="{{ titleLink }}">{{ title }}</a>
-      {{else}} {{ title }} {{/if}}
-    </strong>
-  </div>
-  {{/if}} {{#if content }}
-  <div>{{ content }}</div>
-  {{/if}} {{#if image }}
-  <br />
-  <img src="{{image}}" />
-  {{/if}} {{#if footer }}
-  <h6>
-    {{#if footerIcon }}
-    <img src="{{ footerIcon }}" height="14" />
-    {{/if}} {{#if footerLink }}
-    <a href="{{ footerLink }}">{{ footer }}</a>
-    {{else}} {{ footer }} {{/if}}
-  </h6>
+  {{#if header }}
+    {{{ header }}}
   {{/if}}
+
+  {{#if thumb }}
+    <img src="{{ thumb }}" width="48" align="right" />
+  {{/if}}
+
+  {{#if authorName }}
+    <div>
+      {{#if authorIcon }}
+        <img src="{{ authorIcon }}" height="14" />
+      {{/if}}
+      {{#if authorLink }}
+        <a href="{{ authorLink }}">{{ authorName }}</a>
+      {{else}}
+        {{ authorName }}
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{#if title }}
+    <div>
+      <strong>
+        {{#if titleLink }}
+          <a href="{{ titleLink }}">{{ title }}</a>
+        {{else}}
+          {{ title }}
+        {{/if}}
+      </strong>
+    </div>
+  {{/if}}
+
+  {{#if content }}
+    <div>{{ content }}</div>
+  {{/if}}
+
+  {{#if image }}
+    <br/>
+    <img src="{{image}}" />
+  {{/if}}
+
+  {{#if footer }}
+    <h6>
+      {{#if footerIcon }}
+        <img src="{{ footerIcon }}" height="14" />
+        {{/if}}
+      {{#if footerLink }}
+        <a href="{{ footerLink }}">{{ footer }}</a>
+      {{else}}
+        {{ footer }}
+      {{/if}}
+    </h6>
+  {{/if}}
+
 </blockquote>
 ```
 
