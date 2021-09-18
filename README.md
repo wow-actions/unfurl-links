@@ -1,6 +1,6 @@
 # Unfurl Links
 
-A Github Action to unfurl links on Issues and Pull Request discussions.
+Unfurl links on Issues and Pull Request discussions.
 
 ![screenshot](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/default.jpg?raw=true)
 
@@ -112,57 +112,57 @@ And the default template is:
 
 ```hbs
 <blockquote>
-  {{#if header }}
-    {{{ header }}}
+  {{#if header}}
+    {{{header}}}
   {{/if}}
 
-  {{#if thumb }}
-    <img src="{{ thumb }}" width="48" align="right" />
+  {{#if thumb}}
+    <img src='{{thumb}}' width='48' align='right' />
   {{/if}}
 
-  {{#if authorName }}
+  {{#if authorName}}
     <div>
-      {{#if authorIcon }}
-        <img src="{{ authorIcon }}" height="14" />
+      {{#if authorIcon}}
+        <img src='{{authorIcon}}' height='14' />
       {{/if}}
-      {{#if authorLink }}
-        <a href="{{ authorLink }}">{{ authorName }}</a>
+      {{#if authorLink}}
+        <a href='{{authorLink}}'>{{authorName}}</a>
       {{else}}
-        {{ authorName }}
+        {{authorName}}
       {{/if}}
     </div>
   {{/if}}
 
-  {{#if title }}
+  {{#if title}}
     <div>
       <strong>
-        {{#if titleLink }}
-          <a href="{{ titleLink }}">{{ title }}</a>
+        {{#if titleLink}}
+          <a href='{{titleLink}}'>{{title}}</a>
         {{else}}
-          {{ title }}
+          {{title}}
         {{/if}}
       </strong>
     </div>
   {{/if}}
 
-  {{#if content }}
-    <div>{{ content }}</div>
+  {{#if content}}
+    <div>{{content}}</div>
   {{/if}}
 
-  {{#if image }}
-    <br/>
-    <img src="{{image}}" />
+  {{#if image}}
+    <br />
+    <img src='{{image}}' />
   {{/if}}
 
-  {{#if footer }}
+  {{#if footer}}
     <h6>
-      {{#if footerIcon }}
-        <img src="{{ footerIcon }}" height="14" />
-        {{/if}}
-      {{#if footerLink }}
-        <a href="{{ footerLink }}">{{ footer }}</a>
+      {{#if footerIcon}}
+        <img src='{{footerIcon}}' height='14' />
+      {{/if}}
+      {{#if footerLink}}
+        <a href='{{footerLink}}'>{{footer}}</a>
       {{else}}
-        {{ footer }}
+        {{footer}}
       {{/if}}
     </h6>
   {{/if}}

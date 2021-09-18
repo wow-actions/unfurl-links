@@ -4,6 +4,7 @@ import { unfurl } from 'unfurl.js'
 import { compile } from 'handlebars'
 
 export namespace Unfurl {
+  // eslint-disable-next-line no-inner-declarations
   function getLinks(html: string) {
     const links: string[] = []
 
@@ -44,6 +45,7 @@ export namespace Unfurl {
     footerIcon?: string
   }
 
+  // eslint-disable-next-line no-inner-declarations
   async function getMetadata(url: string): Promise<Metadata> {
     const data = await unfurl(url, { oembed: true })
     const ogps = data.open_graph
@@ -145,7 +147,8 @@ export namespace Unfurl {
 
   export async function parse(html: string) {
     // https://regex101.com/r/m6GyIi/1
-    const regex = /[\r\n\s]*<!--\s*unfurl\s+begin\s*-->([\S\s]*?)[\r\n\s]*<!--\s*unfurl\s+end\s*-->[\r\n\s]*/gm
+    const regex =
+      /[\r\n\s]*<!--\s*unfurl\s+begin\s*-->([\S\s]*?)[\r\n\s]*<!--\s*unfurl\s+end\s*-->[\r\n\s]*/gm
     const raw = html.replace(regex, '')
     const links = getLinks(raw)
 

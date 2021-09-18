@@ -14,12 +14,12 @@ export namespace Action {
         Util.isValidEvent('issue_comment', 'created') ||
         Util.isValidEvent('issue_comment', 'edited')
       ) {
-        const context = github.context
+        const { context } = github
         const headers = { accept: 'application/vnd.github.full+json' }
 
         if (context.payload.comment) {
           const octokit = Util.getOctokit()
-          const comment = await octokit.issues.getComment({
+          const comment = await octokit.rest.issues.getComment({
             ...context.repo,
             headers,
             comment_id: context.payload.comment.id,
@@ -28,7 +28,7 @@ export namespace Action {
           const html = Util.getHtml(comment.data)
           const body = await Unfurl.parse(html)
           if (body) {
-            await octokit.issues.updateComment({
+            await octokit.rest.issues.updateComment({
               ...context.repo,
               body,
               comment_id: context.payload.comment.id,
@@ -45,7 +45,7 @@ export namespace Action {
             }
 
             const octokit = Util.getOctokit()
-            const issue = await octokit.issues.get({
+            const issue = await octokit.rest.issues.get({
               ...context.repo,
               headers,
               issue_number: payload.number,
@@ -54,7 +54,7 @@ export namespace Action {
             const html = Util.getHtml(issue.data)
             const body = await Unfurl.parse(html)
             if (body) {
-              await octokit.issues.update({
+              await octokit.rest.issues.update({
                 ...context.repo,
                 body,
                 issue_number: payload.number,
