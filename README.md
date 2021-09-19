@@ -2,7 +2,7 @@
 
 Unfurl links on Issues and Pull Request discussions.
 
-![screenshot](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/default.jpg?raw=true)
+![screenshot](https://github.com/wow-actions/unfurl-links/blob/master/screenshots/default.jpg?raw=true)
 
 ## Usage
 
@@ -21,7 +21,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/unfurl-links@v1
+      - uses: wow-actions/unfurl-links@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -36,7 +36,7 @@ Your GitHub token for authentication.
 
 Specify if only render the raw links. Default `true`.
 
-![raw links](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/raw-links.jpg?raw=true)
+![raw links](https://github.com/wow-actions/unfurl-links/blob/master/screenshots/raw-links.jpg?raw=true)
 
 Set `raw` to `false` to render all links.
 
@@ -53,13 +53,13 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/unfurl-links@v1
+      - uses: wow-actions/unfurl-links@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           raw: false
 ```
 
-![all links](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/all-links.jpg?raw=true)
+![all links](https://github.com/wow-actions/unfurl-links/blob/master/screenshots/all-links.jpg?raw=true)
 
 #### header
 
@@ -78,13 +78,13 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/unfurl-links@v1
+      - uses: wow-actions/unfurl-links@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           header: '<i><a href="{{ url }}">{{ url }}</a></i>'
 ```
 
-![custom header](https://github.com/bubkoo/unfurl-links/blob/master/screenshots/custom-header.jpg?raw=true)
+![custom header](https://github.com/wow-actions/unfurl-links/blob/master/screenshots/custom-header.jpg?raw=true)
 
 #### template
 
