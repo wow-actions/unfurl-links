@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/wow-actions/unfurl-links/compare/v1.0.0...v1.0.1) (2021-09-20)
+
+
+### Bug Fixes
+
+* typos ([254f2d7](https://github.com/wow-actions/unfurl-links/commit/254f2d7c6d51e5cda6254af142a12ea5351f288b))
+
 # 1.0.0 (2021-09-18)
 
 
